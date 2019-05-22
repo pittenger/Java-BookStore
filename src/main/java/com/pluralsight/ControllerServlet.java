@@ -2,11 +2,8 @@ package com.pluralsight;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.DriverManager;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,17 +48,19 @@ public class ControllerServlet extends HttpServlet {
 		try {
 			switch(action) {
 				case "/admin":
-					 showBookAdmin(request, response);
-           break;
-			  case "/new":
+					showBookAdmin(request, response);
+            		break;
+	 			case "/new":
 					showNewForm(request, response);
-          break;
+            		break;
 				case "/insert":
 					insertBook(request, response);
-          break;
-        default:
-				   listBooks(request, response);
-           break;
+        		    break;
+				case "/delete":
+					deleteBook(request, response);
+        		default:
+					listBooks(request, response);
+			   		break;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -85,6 +84,13 @@ public class ControllerServlet extends HttpServlet {
 		request.setAttribute("books", books_list);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/BookList.jsp");
 		dispatcher.forward(request, response);
+	}
+
+	private void deleteBook(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+		String id = request.getParameter("id");
+
+		bookDAO.deleteBook(Integer.parseInt(id));
+		response.sendRedirect("list");
 	}
 
 	private void showNewForm(HttpServletRequest request, HttpServletResponse response)
