@@ -31,7 +31,7 @@
             </h2>
 
     <c:if test="${book != null}">
-            <input type="hidden" name="id" value="<c:out value="${book.id}"/>"/>
+            <input type="hidden" name="id" value="<c:out value="${book.id}"/>" />
     </c:if>
             <p>
                 <label>Title:</label>
